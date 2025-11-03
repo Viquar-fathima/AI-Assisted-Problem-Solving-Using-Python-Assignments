@@ -1,0 +1,21 @@
+# Write a Python function that formats full names as "Last, First".
+def format_name(first: str, last: str) -> str:
+    """Format the full name as 'Last, First'."""
+    return f"{last}, {first}"
+# Examples:
+# Input: "John Smith" → Output: "Smith, John"
+# Input: "Jane Doe" → Output: "Doe, Jane"
+# Test the function with example inputs
+first_name = "John" 
+last_name = "Smith"
+formatted_name = format_name(first_name, last_name)
+print(formatted_name)  # Output: "Smith, John"
+first_name = "Jane"
+last_name = "Doe"
+formatted_name = format_name(first_name, last_name)
+print(formatted_name)  # Output: "Doe, Jane"
+#ask user for input
+first_name = input("Enter first name: ")
+last_name = input("Enter last name: ")
+formatted_name = format_name(first_name, last_name)
+print("Formatted name:", formatted_name)
