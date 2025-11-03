@@ -1,0 +1,11 @@
+# Prompt: Write a Python function that converts centimeters to inches.
+# Example: 10 cm → 3.937 inches.
+def cm_to_inches(cm: float) -> float:
+    """Convert centimeters to inches."""
+    return cm / 2.54
+# Ask user for input
+cm_value = float(input("Enter length in centimeters: "))
+inches_value = cm_to_inches(cm_value)
+# Call the function and display the result
+inches = cm_to_inches(cm_value)
+print(f"{cm_value} cm = {inches:.3f} inches")
