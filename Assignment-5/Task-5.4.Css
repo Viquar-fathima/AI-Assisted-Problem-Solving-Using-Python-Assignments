@@ -1,0 +1,21 @@
+body { font-family: Arial, sans-serif; margin: 24px; }
+h1 { margin: 0 0 12px 0; }
+p.hint { margin-top: 0; }
+form { display: grid; gap: 8px; max-width: 500px; }
+label { display: grid; gap: 4px; }
+input, select { padding: 8px; }
+button { padding: 10px 12px; cursor: pointer; margin-top: 8px; }
+.result { margin-top: 16px; padding: 16px; border: 1px solid #ddd; border-radius: 6px; }
+.highly-recommended { border-left: 4px solid #4caf50; }
+.recommended { border-left: 4px solid #8bc34a; }
+.consider { border-left: 4px solid #ff9800; }
+.not-recommended { border-left: 4px solid #f44336; }
+.breakdown { margin-top: 12px; }
+.breakdown-item { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid #eee; }
+.breakdown-item:last-child { border-bottom: none; }
+.breakdown-label { font-weight: bold; }
+.breakdown-score { color: #666; }
+.total-score { font-size: 24px; font-weight: bold; margin: 12px 0; }
+.recommendation { font-size: 18px; margin: 8px 0; }
+.weights-info { margin-top: 16px; padding-top: 16px; border-top: 1px solid #eee; }
+.muted { font-size: 12px; margin-top: 16px; }
