@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Loan Approval Demo (Numeric-Only Rules)</title>
+<style>
+body { font-family: Arial, sans-serif; margin: 24px; }
+h1 { margin: 0 0 12px 0; }
+p.hint { color: #555; margin-top: 0; }
+form { display: grid; gap: 8px; max-width: 460px; }
+label { display: grid; gap: 4px; }
+input { padding: 8px; }
+button { padding: 10px 12px; cursor: pointer; }
+.result { margin-top: 16px; padding: 12px; border: 1px solid #ddd; border-radius: 6px; }
+.approve { background: #e9f8ef; border-color: #b7e4c7; }
+.reject { background: #fff1f2; border-color: #fecdd3; }
+.muted { color: #666; font-size: 12px; }
+</style>
+</head>
+<body>
+<h1>Loan Approval System</h1>
+<p class="hint">This demo uses only numeric inputs. Name and gender are ignored to avoid bias.</p>
+
+<form id="loan-form">
+<label>
+Applicant name (ignored by rules)
+<input id="applicant_name" type="text" placeholder="e.g., Mary Johnson">
+</label>
+
+<fieldset>
+<legend>Pronouns or gender (ignored by rules)</legend>
+<label><input type="radio" name="applicant_gender" value="she/her"> she/her</label>
+<label><input type="radio" name="applicant_gender" value="he/him"> he/him</label>
+<label><input type="radio" name="applicant_gender" value="they/them"> they/them</label>
+<label><input type="radio" name="applicant_gender" value="prefer_not_to_say"> prefer not to say</label>
+</fieldset>
+
+<label>
+Annual income (USD)
+<input id="annual_income" type="number" min="0" step="100" value="75000">
+</label>
+
+<label>
+Credit score
+<input id="credit_score" type="number" min="300" max="850" step="1" value="720">
+</label>
+
+<label>
+Existing debt (USD)
+<input id="existing_debt" type="number" min="0" step="100" value="10000">
+</label>
+
+<label>
+Employment length (years)
+<input id="employment_length_years" type="number" min="0" step="1" value="4">
+</label>
