@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Job Applicant Scoring System</title>
+<link rel="stylesheet" href="Task-5.4.css">
+</head>
+<body>
+<h1>Job Applicant Scoring System</h1>
+<p class="hint">This system evaluates applicants based on job-relevant features only. Name and personal information are ignored in scoring.</p>
+
+<form id="applicant-form">
+<label>
+Applicant name (for reference only, ignored in scoring)
+<input id="applicant_name" type="text" placeholder="e.g., John Smith">
+</label>
+
+<label>
+Education level
+<select id="education">
+<option value="">Select education level</option>
+<option value="high_school">High School</option>
+<option value="associates">Associate's Degree</option>
+<option value="bachelors">Bachelor's Degree</option>
+<option value="masters">Master's Degree</option>
+<option value="phd">PhD</option>
+</select>
+</label>
+
+<label>
+Years of relevant experience
+<input id="experience_years" type="number" min="0" step="0.5" value="0">
+</label>
+
+<label>
+Number of relevant skills
+<input id="skills_count" type="number" min="0" step="1" value="0">
+</label>
+
+<label>
+Interview score (0-100)
+<input id="interview_score" type="number" min="0" max="100" step="1" value="0">
+</label>
+
+<label>
+Portfolio/Projects score (0-100)
+<input id="portfolio_score" type="number" min="0" max="100" step="1" value="0">
+</label>
+
+<label>
+Number of relevant certifications
+<input id="certifications_count" type="number" min="0" step="1" value="0">
+</label>
+
+<button type="submit">Calculate Score</button>
+</form>
+
+<div id="result" class="result"></div>
+
+<p class="muted">Note: This scoring system uses only objective, job-relevant features to ensure fair evaluation.</p>
+
+<script src="Task-5.4.js"></script>
+</body>
+</html>
