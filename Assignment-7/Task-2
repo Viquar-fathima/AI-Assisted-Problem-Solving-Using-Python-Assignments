@@ -1,0 +1,371 @@
+"""
+Task: Identify and fix a logic error in a loop that causes infinite iteration.
+This code demonstrates increment/decrement errors that cause infinite loops.
+"""
+
+# ============================================================================
+# CODE WITH LOGIC ERROR (INFINITE LOOP)
+# ============================================================================
+
+def count_down_error(n):
+    """
+    This function is intended to count down from n to 0.
+    BUT IT CONTAINS A LOGIC ERROR that causes an infinite loop!
+    
+    Args:
+        n (int): Starting number for countdown
+    
+    PROBLEM: Uses n += 1 instead of n -= 1
+    RESULT: Infinite loop because n keeps increasing, never reaching < 0
+    """
+    print(f"Starting countdown from: {n}")
+    while n >= 0:  # Loop continues while n is greater than or equal to 0
+        print(n)
+        n += 1  # ❌ ERROR: Incrementing instead of decrementing!
+        # This causes n to keep increasing, so the condition n >= 0 is always True
+        # Result: INFINITE LOOP!
+    print("Countdown finished!")  # This line will NEVER be reached
+
+
+# ============================================================================
+# FIXED CODE (CORRECT IMPLEMENTATION)
+# ============================================================================
+
+def count_down_fixed(n):
+    """
+    Fixed version of count_down function.
+    Counts down from n to 0 correctly.
+    
+    Args:
+        n (int): Starting number for countdown
+    
+    Returns:
+        None: Prints countdown from n to 0
+    """
+    print(f"Starting countdown from: {n}")
+    while n >= 0:  # Loop continues while n is greater than or equal to 0
+        print(n)
+        n -= 1  # ✅ FIXED: Decrementing n by 1
+        # Now n decreases each iteration, eventually becoming -1
+        # When n becomes -1, the condition n >= 0 becomes False, loop exits
+    print("Countdown finished!")  # This line will be reached
+
+
+def count_up_error(start, end):
+    """
+    This function is intended to count up from start to end.
+    BUT IT CONTAINS A LOGIC ERROR that causes an infinite loop!
+    
+    Args:
+        start (int): Starting number
+        end (int): Ending number
+    
+    PROBLEM: Uses i -= 1 instead of i += 1
+    RESULT: Infinite loop if start < end
+    """
+    i = start
+    print(f"Counting from {start} to {end}")
+    while i <= end:  # Loop continues while i is less than or equal to end
+        print(i)
+        i -= 1  # ❌ ERROR: Decrementing instead of incrementing!
+        # If start < end, i will keep decreasing, never reaching > end
+        # Result: INFINITE LOOP!
+    print("Counting finished!")
+
+
+def count_up_fixed(start, end):
+    """
+    Fixed version of count_up function.
+    Counts up from start to end correctly.
+    
+    Args:
+        start (int): Starting number
+        end (int): Ending number
+    
+    Returns:
+        None: Prints numbers from start to end
+    """
+    i = start
+    print(f"Counting from {start} to {end}")
+    while i <= end:  # Loop continues while i is less than or equal to end
+        print(i)
+        i += 1  # ✅ FIXED: Incrementing i by 1
+        # Now i increases each iteration, eventually becoming > end
+        # When i > end, the condition i <= end becomes False, loop exits
+    print("Counting finished!")
+
+
+def print_multiples_error(number, limit):
+    """
+    This function is intended to print multiples of a number up to a limit.
+    BUT IT CONTAINS A LOGIC ERROR that causes an infinite loop!
+    
+    Args:
+        number (int): The number to find multiples of
+        limit (int): Maximum value
+    
+    PROBLEM: Forgets to increment counter
+    RESULT: Counter never changes, infinite loop
+    """
+    counter = number
+    print(f"Multiples of {number} up to {limit}:")
+    while counter <= limit:
+        print(counter)
+        # ❌ ERROR: Missing increment statement!
+        # counter is never changed, so counter <= limit is always True
+        # Result: INFINITE LOOP!
+    print("Finished printing multiples!")
+
+
+def print_multiples_fixed(number, limit):
+    """
+    Fixed version of print_multiples function.
+    Prints multiples of a number up to a limit correctly.
+    
+    Args:
+        number (int): The number to find multiples of
+        limit (int): Maximum value
+    
+    Returns:
+        None: Prints multiples of number up to limit
+    """
+    counter = number
+    print(f"Multiples of {number} up to {limit}:")
+    while counter <= limit:
+        print(counter)
+        counter += number  # ✅ FIXED: Incrementing counter by number
+        # Now counter increases each iteration by 'number'
+        # Eventually counter > limit, loop exits
+    print("Finished printing multiples!")
+
+
+# ============================================================================
+# EXPLANATION OF THE LOGIC ERROR
+# ============================================================================
+"""
+LOGIC ERROR: Infinite Loop Caused by Increment/Decrement Error
+
+═══════════════════════════════════════════════════════════════════════════
+
+ERROR DESCRIPTION:
+─────────────────
+    A logic error occurs when the loop variable is modified incorrectly,
+    causing the loop condition to never become False, resulting in an
+    infinite loop.
+
+COMMON CAUSES OF INFINITE LOOPS:
+─────────────────────────────────
+    1. Wrong increment/decrement operator (n += 1 instead of n -= 1)
+    2. Missing increment/decrement statement
+    3. Incrementing when should decrement (or vice versa)
+    4. Condition that can never become False
+    5. Modifying wrong variable in the loop
+
+EXAMPLE 1: COUNTDOWN FUNCTION
+──────────────────────────────
+    ERROR CODE:
+        def count_down(n):
+            while n >= 0:
+                print(n)
+                n += 1  # ❌ WRONG: Incrementing instead of decrementing!
+        
+    PROBLEM:
+        - If n starts at 5, it becomes 6, 7, 8, ... forever
+        - Condition n >= 0 is always True
+        - Loop never terminates → INFINITE LOOP
+    
+    FIXED CODE:
+        def count_down(n):
+            while n >= 0:
+                print(n)
+                n -= 1  # ✅ CORRECT: Decrementing n
+    
+    WHY IT WORKS:
+        - If n starts at 5, it becomes 4, 3, 2, 1, 0, -1
+        - When n becomes -1, condition n >= 0 becomes False
+        - Loop terminates correctly
+
+EXAMPLE 2: COUNT UP FUNCTION
+─────────────────────────────
+    ERROR CODE:
+        def count_up(start, end):
+            i = start
+            while i <= end:
+                print(i)
+                i -= 1  # ❌ WRONG: Decrementing instead of incrementing!
+    
+    PROBLEM:
+        - If start=1, end=5, i becomes 0, -1, -2, ... forever
+        - Condition i <= end is always True
+        - Loop never terminates → INFINITE LOOP
+    
+    FIXED CODE:
+        def count_up(start, end):
+            i = start
+            while i <= end:
+                print(i)
+                i += 1  # ✅ CORRECT: Incrementing i
+
+EXAMPLE 3: MISSING INCREMENT
+─────────────────────────────
+    ERROR CODE:
+        def print_numbers(n):
+            i = 0
+            while i < n:
+                print(i)
+                # ❌ ERROR: Missing i += 1!
+    
+    PROBLEM:
+        - i never changes from 0
+        - Condition i < n is always True (if n > 0)
+        - Loop never terminates → INFINITE LOOP
+    
+    FIXED CODE:
+        def print_numbers(n):
+            i = 0
+            while i < n:
+                print(i)
+                i += 1  # ✅ CORRECT: Incrementing i
+
+HOW TO IDENTIFY INFINITE LOOPS:
+───────────────────────────────
+    1. Check if loop variable is being modified
+    2. Verify the modification moves toward the exit condition
+    3. Ensure the exit condition can actually be reached
+    4. Test with small values first
+    5. Add break conditions or timeouts for safety
+
+HOW TO FIX INFINITE LOOPS:
+──────────────────────────
+    1. Identify what the loop should accomplish
+    2. Determine correct direction (increment or decrement)
+    3. Verify the increment/decrement statement exists
+    4. Check that it moves toward the exit condition
+    5. Test with various input values
+
+BEST PRACTICES:
+───────────────
+    ✓ Always modify loop variable inside the loop
+    ✓ Use for loops when possible (they handle iteration automatically)
+    ✓ Add safeguards (max iterations, timeouts)
+    ✓ Test with edge cases (0, negative numbers, large numbers)
+    ✓ Use meaningful variable names
+    ✓ Add comments explaining loop logic
+"""
+
+
+# ============================================================================
+# TESTING THE CORRECTED FUNCTIONS
+# ============================================================================
+
+if __name__ == "__main__":
+    print("=" * 80)
+    print("IDENTIFYING AND FIXING INFINITE LOOP ERRORS")
+    print("=" * 80)
+    
+    print("\n" + "─" * 80)
+    print("ERROR ANALYSIS")
+    print("─" * 80)
+    print("""
+    ERROR EXAMPLE 1: count_down_error(n)
+    ─────────────────────────────────────
+    Problem: Uses n += 1 instead of n -= 1
+    Result: n keeps increasing, condition n >= 0 always True
+    Outcome: INFINITE LOOP (will run forever)
+    
+    ERROR EXAMPLE 2: count_up_error(start, end)
+    ───────────────────────────────────────────
+    Problem: Uses i -= 1 instead of i += 1
+    Result: i keeps decreasing, condition i <= end always True
+    Outcome: INFINITE LOOP (will run forever)
+    
+    ERROR EXAMPLE 3: print_multiples_error(number, limit)
+    ─────────────────────────────────────────────────────
+    Problem: Missing increment statement
+    Result: counter never changes, condition always True
+    Outcome: INFINITE LOOP (will run forever)
+    """)
+    
+    print("\n" + "─" * 80)
+    print("FIXED CODE DEMONSTRATION")
+    print("─" * 80)
+    
+    print("\n1. Testing count_down_fixed(5):")
+    print("─" * 40)
+    count_down_fixed(5)
+    
+    print("\n2. Testing count_up_fixed(1, 5):")
+    print("─" * 40)
+    count_up_fixed(1, 5)
+    
+    print("\n3. Testing print_multiples_fixed(3, 15):")
+    print("─" * 40)
+    print_multiples_fixed(3, 15)
+    
+    print("\n4. Testing count_down_fixed(10):")
+    print("─" * 40)
+    count_down_fixed(10)
+    
+    print("\n5. Testing count_up_fixed(0, 3):")
+    print("─" * 40)
+    count_up_fixed(0, 3)
+    
+    print("\n" + "=" * 80)
+    print("SUMMARY OF FIXES")
+    print("=" * 80)
+    print("""
+    FIX 1: count_down_error → count_down_fixed
+    ───────────────────────────────────────────
+    Changed: n += 1  →  n -= 1
+    Reason: Countdown requires decrementing, not incrementing
+    Result: Loop terminates correctly when n becomes negative
+    
+    FIX 2: count_up_error → count_up_fixed
+    ───────────────────────────────────────
+    Changed: i -= 1  →  i += 1
+    Reason: Count up requires incrementing, not decrementing
+    Result: Loop terminates correctly when i exceeds end
+    
+    FIX 3: print_multiples_error → print_multiples_fixed
+    ─────────────────────────────────────────────────────
+    Added: counter += number
+    Reason: Loop variable must be modified to progress
+    Result: Loop terminates correctly when counter exceeds limit
+    
+    KEY TAKEAWAYS:
+    ──────────────
+    1. Always verify loop variable is modified correctly
+    2. Ensure modification moves toward the exit condition
+    3. Test with small values before using in production
+    4. Consider using for loops when iteration count is known
+    5. Add safety checks to prevent infinite loops
+    """)
+    
+    print("\n" + "=" * 80)
+    print("⚠️  WARNING: DO NOT RUN THE ERROR FUNCTIONS!")
+    print("=" * 80)
+    print("""
+    The error functions (count_down_error, count_up_error, 
+    print_multiples_error) contain infinite loops and will run forever!
+    
+    If you want to test them (NOT RECOMMENDED):
+    1. Use a timeout or max iteration limit
+    2. Be ready to interrupt the program (Ctrl+C)
+    3. Test in a controlled environment only
+    
+    Example of safe testing with timeout:
+    ─────────────────────────────────────
+    import signal
+    
+    def timeout_handler(signum, frame):
+        raise TimeoutError("Function took too long!")
+    
+    signal.signal(signal.SIGALRM, timeout_handler)
+    signal.alarm(5)  # 5 second timeout
+    try:
+        count_down_error(5)
+    except TimeoutError:
+        print("Function timed out (infinite loop detected!)")
+    finally:
+        signal.alarm(0)  # Cancel alarm
+    """)
