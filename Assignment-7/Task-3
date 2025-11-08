@@ -1,0 +1,510 @@
+"""
+Task: Debug a runtime error caused by division by zero.
+This code demonstrates using try-except blocks to handle division by zero errors safely.
+"""
+
+# ============================================================================
+# CODE WITH RUNTIME ERROR (DIVISION BY ZERO)
+# ============================================================================
+
+def divide_error(a, b):
+    """
+    This function divides a by b.
+    BUT IT CONTAINS A RUNTIME ERROR when b is 0!
+    
+    Args:
+        a (float): Dividend
+        b (float): Divisor
+    
+    Returns:
+        float: Result of a / b
+    
+    ERROR: Does not handle division by zero
+    RESULT: ZeroDivisionError when b = 0
+    """
+    return a / b  # ❌ ERROR: Will raise ZeroDivisionError if b = 0
+
+
+# ============================================================================
+# FIXED CODE WITH TRY-EXCEPT (ERROR HANDLING)
+# ============================================================================
+
+def divide_safe_v1(a, b):
+    """
+    Fixed version using try-except to handle division by zero.
+    Method 1: Return error message string
+    
+    Args:
+        a (float): Dividend
+        b (float): Divisor
+    
+    Returns:
+        float: Result of a / b, or error message string if division by zero
+    
+    Example:
+        >>> divide_safe_v1(10, 2)
+        5.0
+        >>> divide_safe_v1(10, 0)
+        'Error: Cannot divide by zero!'
+    """
+    try:
+        result = a / b
+        return result
+    except ZeroDivisionError:
+        return "Error: Cannot divide by zero!"
+
+
+def divide_safe_v2(a, b):
+    """
+    Fixed version using try-except to handle division by zero.
+    Method 2: Return None and print error message
+    
+    Args:
+        a (float): Dividend
+        b (float): Divisor
+    
+    Returns:
+        float: Result of a / b, or None if division by zero
+    
+    Example:
+        >>> divide_safe_v2(10, 2)
+        5.0
+        >>> divide_safe_v2(10, 0)
+        Error: Division by zero is not allowed!
+        None
+    """
+    try:
+        result = a / b
+        return result
+    except ZeroDivisionError:
+        print("Error: Division by zero is not allowed!")
+        return None
+
+
+def divide_safe_v3(a, b):
+    """
+    Fixed version using try-except to handle division by zero.
+    Method 3: Raise custom exception with descriptive message
+    
+    Args:
+        a (float): Dividend
+        b (float): Divisor
+    
+    Returns:
+        float: Result of a / b
+    
+    Raises:
+        ValueError: If b is zero, with descriptive error message
+    
+    Example:
+        >>> divide_safe_v3(10, 2)
+        5.0
+        >>> divide_safe_v3(10, 0)
+        ValueError: Cannot divide 10 by 0. Division by zero is undefined.
+    """
+    try:
+        result = a / b
+        return result
+    except ZeroDivisionError:
+        raise ValueError(f"Cannot divide {a} by {b}. Division by zero is undefined.")
+
+
+def divide_safe_v4(a, b):
+    """
+    Fixed version using try-except to handle division by zero.
+    Method 4: Return infinity or negative infinity (mathematical approach)
+    
+    Args:
+        a (float): Dividend
+        b (float): Divisor
+    
+    Returns:
+        float: Result of a / b, or infinity if division by zero
+    
+    Note: This approach follows mathematical convention where x/0 = infinity
+    """
+    try:
+        result = a / b
+        return result
+    except ZeroDivisionError:
+        if a > 0:
+            return float('inf')  # Positive infinity
+        elif a < 0:
+            return float('-inf')  # Negative infinity
+        else:
+            return float('nan')  # Not a number (0/0 case)
+
+
+def divide_safe_v5(a, b):
+    """
+    Fixed version using try-except to handle division by zero.
+    Method 5: Preventive check before division (recommended approach)
+    
+    Args:
+        a (float): Dividend
+        b (float): Divisor
+    
+    Returns:
+        float: Result of a / b
+    
+    Raises:
+        ValueError: If b is zero
+    
+    Example:
+        >>> divide_safe_v5(10, 2)
+        5.0
+        >>> divide_safe_v5(10, 0)
+        ValueError: Division by zero is not allowed. Please provide a non-zero divisor.
+    """
+    if b == 0:
+        raise ValueError("Division by zero is not allowed. Please provide a non-zero divisor.")
+    
+    return a / b
+
+
+def divide_safe_v6(a, b):
+    """
+    Fixed version using try-except with multiple exception handling.
+    Method 6: Handle multiple types of errors
+    
+    Args:
+        a (float): Dividend
+        b (float): Divisor
+    
+    Returns:
+        float: Result of a / b, or error message string
+    
+    Handles:
+        - ZeroDivisionError: Division by zero
+        - TypeError: Invalid input types
+    """
+    try:
+        result = a / b
+        return result
+    except ZeroDivisionError:
+        return "Error: Cannot divide by zero!"
+    except TypeError as e:
+        return f"Error: Invalid input type - {str(e)}"
+    except Exception as e:
+        return f"Error: An unexpected error occurred - {str(e)}"
+
+
+# ============================================================================
+# COMPREHENSIVE DIVISION FUNCTION WITH ERROR HANDLING
+# ============================================================================
+
+def divide_comprehensive(a, b, default_value=None):
+    """
+    Comprehensive division function with multiple error handling options.
+    
+    Args:
+        a (float): Dividend
+        b (float): Divisor
+        default_value: Value to return if division by zero (default: None)
+    
+    Returns:
+        float or default_value: Result of a / b, or default_value if error
+    
+    Raises:
+        ValueError: If default_value is None and division by zero occurs
+    """
+    try:
+        # Attempt the division
+        result = a / b
+        return result
+    
+    except ZeroDivisionError:
+        # Handle division by zero
+        if default_value is not None:
+            print(f"Warning: Division by zero detected. Returning default value: {default_value}")
+            return default_value
+        else:
+            raise ValueError(
+                f"Cannot divide {a} by {b}. Division by zero is undefined. "
+                f"Provide a default_value parameter to handle this case."
+            )
+    
+    except TypeError as e:
+        # Handle type errors (e.g., dividing by a string)
+        raise TypeError(f"Invalid operand types for division: {type(a).__name__} and {type(b).__name__}")
+    
+    except Exception as e:
+        # Handle any other unexpected errors
+        raise Exception(f"Unexpected error during division: {str(e)}")
+
+
+# ============================================================================
+# EXPLANATION OF THE RUNTIME ERROR AND FIX
+# ============================================================================
+"""
+RUNTIME ERROR: Division by Zero
+
+═══════════════════════════════════════════════════════════════════════════
+
+ERROR DESCRIPTION:
+─────────────────
+    Division by zero is a runtime error that occurs when attempting to
+    divide a number by zero. In Python, this raises a ZeroDivisionError.
+
+ORIGINAL CODE (WITH ERROR):
+───────────────────────────
+    def divide(a, b):
+        return a / b
+    
+    print(divide(10, 0))  # ❌ ZeroDivisionError: division by zero
+
+ERROR MESSAGE:
+──────────────
+    ZeroDivisionError: division by zero
+
+WHY THIS ERROR OCCURS:
+──────────────────────
+    1. Mathematically, division by zero is undefined
+    2. Python raises ZeroDivisionError to prevent undefined behavior
+    3. This is a runtime error (occurs during program execution)
+    4. The program crashes if not handled
+
+HOW TO FIX USING TRY-EXCEPT:
+────────────────────────────
+    METHOD 1: Return Error Message
+        try:
+            return a / b
+        except ZeroDivisionError:
+            return "Error: Cannot divide by zero!"
+    
+    METHOD 2: Return None
+        try:
+            return a / b
+        except ZeroDivisionError:
+            print("Error: Division by zero!")
+            return None
+    
+    METHOD 3: Raise Custom Exception
+        try:
+            return a / b
+        except ZeroDivisionError:
+            raise ValueError("Cannot divide by zero!")
+    
+    METHOD 4: Preventive Check (Recommended)
+        if b == 0:
+            raise ValueError("Division by zero not allowed!")
+        return a / b
+
+BEST PRACTICES:
+───────────────
+    ✓ Always handle division by zero in division functions
+    ✓ Use try-except for error handling
+    ✓ Provide meaningful error messages
+    ✓ Consider using preventive checks
+    ✓ Document expected exceptions in docstrings
+    ✓ Test with edge cases (0, negative numbers, etc.)
+
+COMMON ERROR HANDLING PATTERNS:
+────────────────────────────────
+    1. Try-Except: Catch and handle the error
+    2. Preventive Check: Check condition before operation
+    3. Default Value: Return a default value on error
+    4. Custom Exception: Raise a more descriptive error
+    5. Logging: Log errors for debugging
+
+WHEN TO USE EACH METHOD:
+────────────────────────
+    - Method 1 (Return String): Simple applications, user-facing errors
+    - Method 2 (Return None): When None is an acceptable result
+    - Method 3 (Raise Exception): When caller should handle the error
+    - Method 4 (Preventive): Most efficient, catches error before it occurs
+    - Method 5 (Comprehensive): Production code, multiple error types
+"""
+
+
+# ============================================================================
+# TESTING THE FUNCTIONS
+# ============================================================================
+
+if __name__ == "__main__":
+    print("=" * 80)
+    print("DEBUGGING RUNTIME ERROR - DIVISION BY ZERO")
+    print("=" * 80)
+    
+    print("\n" + "─" * 80)
+    print("STEP 1: IDENTIFYING THE ERROR")
+    print("─" * 80)
+    print("""
+    Original code with error:
+    ─────────────────────────
+    def divide(a, b):
+        return a / b
+    
+    print(divide(10, 0))  # ❌ This will cause ZeroDivisionError
+    
+    Error message:
+    ─────────────
+    ZeroDivisionError: division by zero
+    """)
+    
+    print("\n" + "─" * 80)
+    print("STEP 2: DEMONSTRATING THE ERROR (Will be caught)")
+    print("─" * 80)
+    try:
+        result = divide_error(10, 0)
+        print(f"Result: {result}")
+    except ZeroDivisionError as e:
+        print(f"❌ Error caught: {type(e).__name__}: {e}")
+        print("   This is what happens without error handling!")
+    
+    print("\n" + "─" * 80)
+    print("STEP 3: TESTING FIXED VERSIONS WITH TRY-EXCEPT")
+    print("─" * 80)
+    
+    print("\n1. Method 1: Return Error Message String")
+    print("─" * 50)
+    print(f"divide_safe_v1(10, 2) = {divide_safe_v1(10, 2)}")
+    print(f"divide_safe_v1(10, 0) = {divide_safe_v1(10, 0)}")
+    
+    print("\n2. Method 2: Return None with Error Message")
+    print("─" * 50)
+    print(f"divide_safe_v2(10, 2) = {divide_safe_v2(10, 2)}")
+    result2 = divide_safe_v2(10, 0)
+    print(f"divide_safe_v2(10, 0) = {result2}")
+    
+    print("\n3. Method 3: Raise Custom Exception")
+    print("─" * 50)
+    print(f"divide_safe_v3(10, 2) = {divide_safe_v3(10, 2)}")
+    try:
+        result3 = divide_safe_v3(10, 0)
+        print(f"divide_safe_v3(10, 0) = {result3}")
+    except ValueError as e:
+        print(f"✓ Error handled: {e}")
+    
+    print("\n4. Method 4: Return Infinity (Mathematical Approach)")
+    print("─" * 50)
+    print(f"divide_safe_v4(10, 2) = {divide_safe_v4(10, 2)}")
+    print(f"divide_safe_v4(10, 0) = {divide_safe_v4(10, 0)}")
+    print(f"divide_safe_v4(-10, 0) = {divide_safe_v4(-10, 0)}")
+    print(f"divide_safe_v4(0, 0) = {divide_safe_v4(0, 0)}")
+    
+    print("\n5. Method 5: Preventive Check (Recommended)")
+    print("─" * 50)
+    print(f"divide_safe_v5(10, 2) = {divide_safe_v5(10, 2)}")
+    try:
+        result5 = divide_safe_v5(10, 0)
+        print(f"divide_safe_v5(10, 0) = {result5}")
+    except ValueError as e:
+        print(f"✓ Error handled: {e}")
+    
+    print("\n6. Method 6: Multiple Exception Handling")
+    print("─" * 50)
+    print(f"divide_safe_v6(10, 2) = {divide_safe_v6(10, 2)}")
+    print(f"divide_safe_v6(10, 0) = {divide_safe_v6(10, 0)}")
+    print(f"divide_safe_v6(10, 'a') = {divide_safe_v6(10, 'a')}")
+    
+    print("\n7. Comprehensive Function with Default Value")
+    print("─" * 50)
+    print(f"divide_comprehensive(10, 2) = {divide_comprehensive(10, 2)}")
+    print(f"divide_comprehensive(10, 0, default_value=0) = {divide_comprehensive(10, 0, default_value=0)}")
+    try:
+        result7 = divide_comprehensive(10, 0)
+        print(f"divide_comprehensive(10, 0) = {result7}")
+    except ValueError as e:
+        print(f"✓ Error handled: {e}")
+    
+    print("\n" + "─" * 80)
+    print("ADDITIONAL TEST CASES")
+    print("─" * 80)
+    print()
+    
+    # Test with various inputs
+    test_cases = [
+        (10, 2),
+        (100, 5),
+        (15, 3),
+        (7, 0),  # Division by zero
+        (-10, 2),
+        (10, -2),
+        (0, 5),
+        (0, 0),  # Zero divided by zero
+    ]
+    
+    print("Testing divide_safe_v1 with various inputs:")
+    for a, b in test_cases:
+        result = divide_safe_v1(a, b)
+        if isinstance(result, str):
+            print(f"  divide_safe_v1({a}, {b}) = {result}")
+        else:
+            print(f"  divide_safe_v1({a}, {b}) = {result}")
+    
+    print("\n" + "=" * 80)
+    print("SUMMARY OF FIXES")
+    print("=" * 80)
+    print("""
+    ERROR IDENTIFIED:
+    ─────────────────
+    ❌ ZeroDivisionError: division by zero
+    ❌ Program crashes when dividing by zero
+    
+    FIXES IMPLEMENTED:
+    ──────────────────
+    ✅ Method 1: Return error message string
+    ✅ Method 2: Return None with error message
+    ✅ Method 3: Raise custom ValueError
+    ✅ Method 4: Return infinity (mathematical approach)
+    ✅ Method 5: Preventive check (recommended)
+    ✅ Method 6: Multiple exception handling
+    ✅ Method 7: Comprehensive function with default value
+    
+    RECOMMENDED APPROACH:
+    ────────────────────
+    Use try-except blocks to catch ZeroDivisionError and handle it gracefully.
+    The preventive check method (Method 5) is most efficient, but try-except
+    is more flexible and can handle unexpected cases.
+    
+    KEY TAKEAWAYS:
+    ──────────────
+    1. Always handle division by zero in division functions
+    2. Use try-except for robust error handling
+    3. Provide meaningful error messages
+    4. Test with edge cases (0, negative numbers)
+    5. Document expected exceptions in docstrings
+    6. Choose the appropriate error handling method for your use case
+    """)
+    
+    print("\n" + "=" * 80)
+    print("INTERACTIVE TESTING")
+    print("=" * 80)
+    print("\nTest the division function interactively:")
+    print("(Enter 'quit' to exit)")
+    
+    while True:
+        try:
+            user_input = input("\nEnter two numbers (a b) or 'quit': ").strip()
+            
+            if user_input.lower() in ['quit', 'exit', 'q']:
+                print("Exiting...")
+                break
+            
+            parts = user_input.split()
+            if len(parts) != 2:
+                print("Please enter two numbers separated by a space.")
+                continue
+            
+            a = float(parts[0])
+            b = float(parts[1])
+            
+            print(f"\nUsing divide_safe_v1 (returns error message):")
+            result = divide_safe_v1(a, b)
+            print(f"  {a} / {b} = {result}")
+            
+            print(f"\nUsing divide_safe_v5 (raises exception):")
+            try:
+                result = divide_safe_v5(a, b)
+                print(f"  {a} / {b} = {result}")
+            except ValueError as e:
+                print(f"  Error: {e}")
+        
+        except ValueError as e:
+            print(f"Error: Please enter valid numbers. {e}")
+        except KeyboardInterrupt:
+            print("\n\nExiting...")
+            break
+        except Exception as e:
+            print(f"An unexpected error occurred: {e}")
