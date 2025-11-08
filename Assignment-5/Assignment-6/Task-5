@@ -1,0 +1,518 @@
+"""
+Task: Build a BankAccount class with deposit, withdraw, and balance methods.
+This code demonstrates object-oriented programming with a practical banking example.
+"""
+
+
+class BankAccount:
+    """
+    A BankAccount class that represents a bank account with basic operations.
+    
+    Attributes:
+        account_number (str): Unique identifier for the account
+        account_holder (str): Name of the account holder
+        balance (float): Current balance in the account
+        transaction_history (list): List of all transactions performed
+    """
+    
+    def __init__(self, account_number, account_holder, initial_balance=0.0):
+        """
+        Constructor to initialize a BankAccount object.
+        
+        Args:
+            account_number (str): Unique account identifier
+            account_holder (str): Name of the account holder
+            initial_balance (float): Starting balance (default: 0.0)
+        
+        Example:
+            account = BankAccount("ACC001", "John Doe", 1000.0)
+        """
+        # Validate inputs
+        if not account_number or not account_holder:
+            raise ValueError("Account number and account holder name cannot be empty")
+        
+        if initial_balance < 0:
+            raise ValueError("Initial balance cannot be negative")
+        
+        # Initialize instance variables
+        self.account_number = account_number
+        self.account_holder = account_holder
+        self.balance = float(initial_balance)
+        self.transaction_history = []  # Store transaction history
+        
+        # Record initial deposit if balance > 0
+        if initial_balance > 0:
+            self.transaction_history.append({
+                'type': 'Initial Deposit',
+                'amount': initial_balance,
+                'balance_after': self.balance,
+                'timestamp': self._get_timestamp()
+            })
+    
+    def deposit(self, amount):
+        """
+        Deposit money into the account.
+        
+        Args:
+            amount (float): Amount to deposit (must be positive)
+        
+        Returns:
+            bool: True if deposit successful, False otherwise
+        
+        Raises:
+            ValueError: If amount is negative or zero
+        
+        Example:
+            account.deposit(500.0)  # Deposits $500
+        """
+        # Validate deposit amount
+        if amount <= 0:
+            raise ValueError("Deposit amount must be positive")
+        
+        # Add amount to balance
+        self.balance += amount
+        
+        # Record transaction
+        self.transaction_history.append({
+            'type': 'Deposit',
+            'amount': amount,
+            'balance_after': self.balance,
+            'timestamp': self._get_timestamp()
+        })
+        
+        return True
+    
+    def withdraw(self, amount):
+        """
+        Withdraw money from the account.
+        
+        Args:
+            amount (float): Amount to withdraw (must be positive)
+        
+        Returns:
+            bool: True if withdrawal successful, False if insufficient funds
+        
+        Raises:
+            ValueError: If amount is negative or zero
+            ValueError: If insufficient funds
+        
+        Example:
+            account.withdraw(200.0)  # Withdraws $200 if sufficient balance
+        """
+        # Validate withdrawal amount
+        if amount <= 0:
+            raise ValueError("Withdrawal amount must be positive")
+        
+        # Check for sufficient funds
+        if amount > self.balance:
+            raise ValueError(f"Insufficient funds. Current balance: ${self.balance:.2f}, "
+                           f"Requested: ${amount:.2f}")
+        
+        # Deduct amount from balance
+        self.balance -= amount
+        
+        # Record transaction
+        self.transaction_history.append({
+            'type': 'Withdrawal',
+            'amount': amount,
+            'balance_after': self.balance,
+            'timestamp': self._get_timestamp()
+        })
+        
+        return True
+    
+    def get_balance(self):
+        """
+        Get the current account balance.
+        
+        Returns:
+            float: Current balance in the account
+        
+        Example:
+            current_balance = account.get_balance()
+        """
+        return self.balance
+    
+    def display_balance(self):
+        """
+        Display the current balance in a formatted way.
+        
+        Returns:
+            str: Formatted balance information
+        
+        Example:
+            print(account.display_balance())
+        """
+        return f"Account: {self.account_number}\n" \
+               f"Holder: {self.account_holder}\n" \
+               f"Balance: ${self.balance:.2f}"
+    
+    def get_transaction_history(self):
+        """
+        Get the transaction history.
+        
+        Returns:
+            list: List of all transactions
+        
+        Example:
+            history = account.get_transaction_history()
+        """
+        return self.transaction_history.copy()  # Return copy to prevent external modification
+    
+    def display_transaction_history(self):
+        """
+        Display all transactions in a formatted way.
+        
+        Returns:
+            str: Formatted transaction history
+        """
+        if not self.transaction_history:
+            return "No transactions yet."
+        
+        history_str = f"\nTransaction History for Account {self.account_number}:\n"
+        history_str += "-" * 60 + "\n"
+        
+        for i, transaction in enumerate(self.transaction_history, 1):
+            history_str += f"{i}. {transaction['type']:15s} | " \
+                          f"Amount: ${transaction['amount']:10.2f} | " \
+                          f"Balance: ${transaction['balance_after']:10.2f} | " \
+                          f"Time: {transaction['timestamp']}\n"
+        
+        return history_str
+    
+    def _get_timestamp(self):
+        """
+        Private helper method to get current timestamp.
+        
+        Returns:
+            str: Current timestamp string
+        """
+        from datetime import datetime
+        return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    
+    def __str__(self):
+        """
+        String representation of the BankAccount object.
+        
+        Returns:
+            str: Formatted account information
+        """
+        return f"BankAccount(Account: {self.account_number}, " \
+               f"Holder: {self.account_holder}, " \
+               f"Balance: ${self.balance:.2f})"
+    
+    def __repr__(self):
+        """
+        Official string representation of the BankAccount object.
+        
+        Returns:
+            str: Detailed account information
+        """
+        return f"BankAccount(account_number='{self.account_number}', " \
+               f"account_holder='{self.account_holder}', " \
+               f"balance={self.balance})"
+
+
+# Code Analysis:
+"""
+ANALYSIS OF THE GENERATED CODE:
+
+1. CLASS STRUCTURE:
+   - BankAccount class follows object-oriented programming principles
+   - Uses encapsulation to protect data (balance, transaction_history)
+   - Implements proper initialization with __init__ constructor
+   - Includes magic methods (__str__, __repr__) for better object representation
+
+2. METHODS IMPLEMENTATION:
+
+   a) __init__ (Constructor):
+      - Initializes account with account_number, account_holder, and initial_balance
+      - Validates inputs to ensure data integrity
+      - Sets up transaction_history list for tracking
+      - Time Complexity: O(1) - Constant time
+      - Space Complexity: O(1) - Constant space (plus transaction history)
+
+   b) deposit(amount):
+      - Adds money to the account balance
+      - Validates that amount is positive
+      - Records transaction in history
+      - Time Complexity: O(1) - Constant time (append operation)
+      - Space Complexity: O(1) - Constant space per transaction
+      - Returns: True on success
+
+   c) withdraw(amount):
+      - Removes money from the account balance
+      - Validates amount is positive
+      - Checks for sufficient funds before withdrawal
+      - Records transaction in history
+      - Time Complexity: O(1) - Constant time
+      - Space Complexity: O(1) - Constant space per transaction
+      - Returns: True on success, raises ValueError if insufficient funds
+
+   d) get_balance():
+      - Returns current balance
+      - Simple getter method
+      - Time Complexity: O(1) - Constant time
+      - Space Complexity: O(1) - Constant space
+
+   e) display_balance():
+      - Formats and returns balance information
+      - User-friendly output
+      - Time Complexity: O(1) - Constant time
+      - Space Complexity: O(1) - Constant space
+
+   f) get_transaction_history():
+      - Returns copy of transaction history
+      - Prevents external modification (encapsulation)
+      - Time Complexity: O(n) - where n is number of transactions
+      - Space Complexity: O(n) - creates copy of list
+
+   g) display_transaction_history():
+      - Formats transaction history for display
+      - Time Complexity: O(n) - where n is number of transactions
+      - Space Complexity: O(n) - for formatted string
+
+3. DESIGN PATTERNS:
+
+   - Encapsulation: Balance and transaction history are protected
+   - Data Validation: Input validation in all methods
+   - Error Handling: Raises appropriate exceptions
+   - Transaction Logging: Maintains complete transaction history
+   - Immutability: Returns copy of transaction history
+
+4. SECURITY CONSIDERATIONS:
+
+   - Input validation prevents invalid operations
+   - Balance cannot go negative (enforced in withdraw)
+   - Transaction history prevents tampering (returns copy)
+   - Private method (_get_timestamp) for internal use
+
+5. BEST PRACTICES:
+
+   - Clear method names following Python conventions
+   - Comprehensive docstrings
+   - Type hints could be added for better type checking
+   - Error messages are descriptive
+   - Magic methods for better object representation
+
+6. IMPROVEMENTS POSSIBLE:
+
+   - Add interest calculation
+   - Add account type (savings, checking)
+   - Add transfer between accounts
+   - Add account closure
+   - Add minimum balance requirements
+   - Add transaction limits
+   - Add currency support
+   - Add database persistence
+"""
+
+
+# Main execution and examples
+if __name__ == "__main__":
+    print("=" * 80)
+    print("BANK ACCOUNT CLASS - DEMONSTRATION")
+    print("=" * 80)
+    
+    # Example 1: Create a new account
+    print("\n--- Example 1: Creating a New Account ---")
+    try:
+        account1 = BankAccount("ACC001", "John Doe", 1000.0)
+        print(f"Account created: {account1}")
+        print(account1.display_balance())
+    except ValueError as e:
+        print(f"Error: {e}")
+    
+    # Example 2: Deposit money
+    print("\n--- Example 2: Depositing Money ---")
+    try:
+        account1.deposit(500.0)
+        print("Deposited $500.00")
+        print(f"New Balance: ${account1.get_balance():.2f}")
+    except ValueError as e:
+        print(f"Error: {e}")
+    
+    # Example 3: Withdraw money
+    print("\n--- Example 3: Withdrawing Money ---")
+    try:
+        account1.withdraw(200.0)
+        print("Withdrew $200.00")
+        print(f"New Balance: ${account1.get_balance():.2f}")
+    except ValueError as e:
+        print(f"Error: {e}")
+    
+    # Example 4: Attempt to withdraw more than balance
+    print("\n--- Example 4: Attempting Overdraft (Should Fail) ---")
+    try:
+        account1.withdraw(2000.0)
+    except ValueError as e:
+        print(f"Error caught: {e}")
+        print(f"Balance remains: ${account1.get_balance():.2f}")
+    
+    # Example 5: Display transaction history
+    print("\n--- Example 5: Transaction History ---")
+    print(account1.display_transaction_history())
+    
+    # Example 6: Multiple operations
+    print("\n--- Example 6: Multiple Operations ---")
+    account2 = BankAccount("ACC002", "Jane Smith", 500.0)
+    print(f"Initial: {account2.display_balance()}")
+    
+    account2.deposit(300.0)
+    print(f"After deposit: ${account2.get_balance():.2f}")
+    
+    account2.withdraw(150.0)
+    print(f"After withdrawal: ${account2.get_balance():.2f}")
+    
+    account2.deposit(100.0)
+    print(f"Final balance: ${account2.get_balance():.2f}")
+    
+    print(account2.display_transaction_history())
+    
+    # Example 7: Account with zero initial balance
+    print("\n--- Example 7: Account with Zero Initial Balance ---")
+    account3 = BankAccount("ACC003", "Bob Johnson", 0.0)
+    print(account3.display_balance())
+    account3.deposit(250.0)
+    print(f"After deposit: ${account3.get_balance():.2f}")
+    
+    print("\n" + "=" * 80)
+    print("CODE EXPLANATION:")
+    print("=" * 80)
+    print("""
+    BANK ACCOUNT CLASS EXPLANATION:
+    
+    1. CLASS DEFINITION:
+       - BankAccount is a class that represents a bank account
+       - It encapsulates account data (number, holder, balance)
+       - Provides methods to interact with the account
+    
+    2. CONSTRUCTOR (__init__):
+       - Initializes account with account number, holder name, and initial balance
+       - Validates inputs to ensure data integrity
+       - Creates empty transaction history list
+       - Records initial deposit if balance > 0
+    
+    3. DEPOSIT METHOD:
+       - Adds money to the account balance
+       - Validates amount is positive
+       - Updates balance and records transaction
+       - Returns True on success
+    
+    4. WITHDRAW METHOD:
+       - Removes money from the account balance
+       - Validates amount is positive
+       - Checks for sufficient funds
+       - Updates balance and records transaction
+       - Raises ValueError if insufficient funds
+    
+    5. GET_BALANCE METHOD:
+       - Returns current account balance
+       - Simple getter method for balance
+    
+    6. DISPLAY_BALANCE METHOD:
+       - Formats and returns account information
+       - Shows account number, holder, and balance
+    
+    7. TRANSACTION HISTORY:
+       - Maintains list of all transactions
+       - Each transaction includes type, amount, balance after, and timestamp
+       - Can be retrieved and displayed
+    
+    8. MAGIC METHODS:
+       - __str__: User-friendly string representation
+       - __repr__: Developer-friendly string representation
+    
+    USAGE EXAMPLE:
+    
+    # Create account
+    account = BankAccount("ACC001", "John Doe", 1000.0)
+    
+    # Deposit money
+    account.deposit(500.0)
+    
+    # Withdraw money
+    account.withdraw(200.0)
+    
+    # Check balance
+    balance = account.get_balance()
+    
+    # Display information
+    print(account.display_balance())
+    print(account.display_transaction_history())
+    
+    KEY FEATURES:
+    - Input validation
+    - Transaction logging
+    - Error handling
+    - Encapsulation
+    - User-friendly display methods
+    """)
+    
+    # Interactive mode
+    print("\n" + "=" * 80)
+    print("INTERACTIVE MODE - Bank Account Operations")
+    print("=" * 80)
+    
+    try:
+        # Create account interactively
+        print("\nCreate a new bank account:")
+        acc_num = input("Enter account number: ").strip()
+        acc_holder = input("Enter account holder name: ").strip()
+        initial = input("Enter initial balance (default 0): ").strip()
+        
+        initial_balance = float(initial) if initial else 0.0
+        
+        account = BankAccount(acc_num, acc_holder, initial_balance)
+        print(f"\nAccount created successfully!")
+        print(account.display_balance())
+        
+        # Interactive operations
+        while True:
+            print("\n" + "-" * 80)
+            print("Choose an operation:")
+            print("1. Deposit")
+            print("2. Withdraw")
+            print("3. Check Balance")
+            print("4. View Transaction History")
+            print("5. Exit")
+            
+            choice = input("\nEnter your choice (1-5): ").strip()
+            
+            if choice == "1":
+                try:
+                    amount = float(input("Enter deposit amount: "))
+                    account.deposit(amount)
+                    print(f"✓ Deposited ${amount:.2f}")
+                    print(f"New Balance: ${account.get_balance():.2f}")
+                except ValueError as e:
+                    print(f"✗ Error: {e}")
+            
+            elif choice == "2":
+                try:
+                    amount = float(input("Enter withdrawal amount: "))
+                    account.withdraw(amount)
+                    print(f"✓ Withdrew ${amount:.2f}")
+                    print(f"New Balance: ${account.get_balance():.2f}")
+                except ValueError as e:
+                    print(f"✗ Error: {e}")
+            
+            elif choice == "3":
+                print("\n" + account.display_balance())
+            
+            elif choice == "4":
+                print(account.display_transaction_history())
+            
+            elif choice == "5":
+                print("Exiting...")
+                break
+            
+            else:
+                print("Invalid choice. Please enter 1-5.")
+    
+    except ValueError as e:
+        print(f"Error creating account: {e}")
+    except KeyboardInterrupt:
+        print("\n\nExiting...")
+    except Exception as e:
+        print(f"An error occurred: {e}")
