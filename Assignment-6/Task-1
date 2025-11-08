@@ -1,0 +1,39 @@
+class Student:
+    """A Student class with constructor and display_details method."""
+    
+    def __init__(self, name, student_id, course, grade):
+        """
+        Constructor to initialize Student object.
+        
+        Args:
+            name (str): Name of the student
+            student_id (str): Student ID
+            course (str): Course name
+            grade (str): Grade of the student
+        """
+        self.name = name
+        self.student_id = student_id
+        self.course = course
+        self.grade = grade
+    
+    def display_details(self):
+        """Display all details of the student."""
+        print(f"Name: {self.name}")
+        print(f"Student ID: {self.student_id}")
+        print(f"Course: {self.course}")
+        print(f"Grade: {self.grade}")
+
+
+# Example usage
+if __name__ == "__main__":
+    # Create an instance of Student
+    student1 = Student("John Doe", "S12345", "Computer Science", "A")
+    
+    # Display the details
+    student1.display_details()
+    
+    print("\n" + "-" * 30 + "\n")
+    
+    # Create another instance
+    student2 = Student("Jane Smith", "S67890", "Mathematics", "B+")
+    student2.display_details()
