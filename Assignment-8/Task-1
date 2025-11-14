@@ -1,0 +1,62 @@
+import re
+import unittest
+
+def is_valid_email(email: str) -> bool:
+    """Validate email per requirements:
+    - exactly one '@'
+    - domain must include at least one '.'
+    - must not start or end with special characters (._-+@)
+    - no spaces
+    - no underscore in domain
+    """
+    if not isinstance(email, str) or not email:
+        return False
+    if ' ' in email:
+        return False
+    if email.count('@') != 1:
+        return False
+    # quick check for dot somewhere (requirements)
+    if '.' not in email:
+        return False
+
+    # local: allow letters, digits and . _ + -
+    # domain: allow letters, digits, . and - (no underscore)
+    # neither local nor domain may start or end with special characters
+    pattern = r'^[A-Za-z0-9](?:[A-Za-z0-9._+\-]*[A-Za-z0-9])?@[A-Za-z0-9](?:[A-Za-z0-9.\-]*[A-Za-z0-9])?\.[A-Za-z]{2,}$'
+    return bool(re.fullmatch(pattern, email))
+
+class TestIsValidEmail(unittest.TestCase):
+    def test_valid_emails(self):
+        valid = [
+            "user@example.com",
+            "user.name@example.co.uk",
+            "user-name+tag@example.io",
+            "u@a.io",
+            "first.last+category@sub.domain.com"
+        ]
+        for e in valid:
+            with self.subTest(e=e):
+                self.assertTrue(is_valid_email(e))
+                print(f"Testing valid email: {e}")
+
+    def test_invalid_emails(self):
+        invalid = [
+            "user@@example.com",    # multiple @
+            "userexample.com",      # no @
+            "user@com",             # no dot in domain
+            ".user@example.com",    # starts with special
+            "user.@example.com",    # local ends with special
+            "user@.example.com",    # domain starts with special
+            "user@example.com.",    # ends with special
+            " user@example.com",    # leading space
+            "user@example .com",    # space inside
+            "@example.com",         # starts with @
+            "user@exam_ple.com"     # underscore in domain (treated invalid here)
+        ]
+        for e in invalid:
+            with self.subTest(e=e):
+                self.assertFalse(is_valid_email(e))
+                print(f"Testing invalid email: {e}")
+
+if __name__ == "__main__":
+    unittest.main()
