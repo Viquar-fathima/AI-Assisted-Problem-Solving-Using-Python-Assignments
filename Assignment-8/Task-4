@@ -1,0 +1,92 @@
+class ShoppingCart:
+    """
+    A simple ShoppingCart class that allows adding, removing,
+    and calculating the total cost of items.
+    """
+
+    def __init__(self):
+        # Use a dictionary to store items: {item_name: price}
+        self.items = {}
+
+    def add_item(self, name, price):
+        """
+        Add an item to the shopping cart.
+        If the item already exists, its price is updated.
+        """
+        if not isinstance(name, str) or not isinstance(price, (int, float)):
+            raise ValueError("Invalid item name or price.")
+        if price < 0:
+            raise ValueError("Price cannot be negative.")
+        self.items[name] = price
+
+    def remove_item(self, name):
+        """
+        Remove an item from the cart by name.
+        If the item does not exist, raise an error.
+        """
+        if name not in self.items:
+            raise KeyError(f"Item '{name}' not found in cart.")
+        del self.items[name]
+
+    def total_cost(self):
+        """
+        Return the total price of all items in the cart.
+        """
+        return sum(self.items.values())
+
+
+def test_shopping_cart():
+    cart = ShoppingCart()
+
+    #  Test 1: Add items
+    cart.add_item("Apple", 30)
+    cart.add_item("Banana", 10)
+    assert cart.total_cost() == 40
+
+    #  Test 2: Update item price
+    cart.add_item("Apple", 50)
+    assert cart.total_cost() == 60  # (Apple=50, Banana=10)
+
+    #  Test 3: Remove existing item
+    cart.remove_item("Banana")
+    assert cart.total_cost() == 50
+
+    #  Test 4: Add multiple items
+    cart.add_item("Milk", 25)
+    cart.add_item("Bread", 20)
+    assert cart.total_cost() == 95
+
+    #  Test 5: Remove all items one by one
+    cart.remove_item("Apple")
+    cart.remove_item("Milk")
+    cart.remove_item("Bread")
+    assert cart.total_cost() == 0
+
+    #  Test 6: Invalid price or name
+    try:
+        cart.add_item("Orange", -10)
+    except ValueError:
+        pass
+    else:
+        assert False, "Should raise ValueError for negative price"
+
+    try:
+        cart.add_item(123, 10)
+    except ValueError:
+        pass
+    else:
+        assert False, "Should raise ValueError for invalid name"
+
+    #  Test 7: Remove non-existent item
+    try:
+        cart.remove_item("NonExistent")
+    except KeyError:
+        pass
+    else:
+        assert False, "Should raise KeyError for missing item"
+
+    print(" All ShoppingCart test cases passed successfully!")
+
+
+if __name__ == "__main__":
+    test_shopping_cart()
