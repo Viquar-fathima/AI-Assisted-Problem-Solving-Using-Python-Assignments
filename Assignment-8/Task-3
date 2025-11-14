@@ -1,0 +1,36 @@
+import string
+
+def is_sentence_palindrome(sentence):
+    """
+    This function checks whether a given sentence is a palindrome.
+    It ignores spaces, punctuation, and capitalization.
+    """
+    # Remove non-alphanumeric characters and convert to lowercase
+    cleaned = ''.join(ch.lower() for ch in sentence if ch.isalnum())
+
+    # Compare cleaned sentence with its reverse
+    return cleaned == cleaned[::-1]
+
+
+def test_is_sentence_palindrome():
+    #  True cases (palindromes)
+    assert is_sentence_palindrome("A man a plan a canal Panama") == True
+    assert is_sentence_palindrome("No lemon, no melon") == True
+    assert is_sentence_palindrome("Was it a car or a cat I saw?") == True
+    assert is_sentence_palindrome("Madam In Eden, I’m Adam") == True
+    assert is_sentence_palindrome("Able , was I, I saw elba!") == True
+    assert is_sentence_palindrome("12321") == True
+    assert is_sentence_palindrome(" ") == True
+    assert is_sentence_palindrome("X") == True
+
+    #  False cases (not palindromes)
+    assert is_sentence_palindrome("Hello world") == False
+    assert is_sentence_palindrome("Python is fun") == False
+    assert is_sentence_palindrome("12345") == False
+    assert is_sentence_palindrome("Not a palindrome!") == False
+
+    print(" All test cases passed!")
+
+
+if __name__ == "__main__":
+    test_is_sentence_palindrome()
