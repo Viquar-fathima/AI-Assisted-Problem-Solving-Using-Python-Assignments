@@ -1,0 +1,66 @@
+
+
+def convert_date_format(date_str):
+    """
+    Converts a date string from 'YYYY-MM-DD' to 'DD-MM-YYYY'.
+    Returns 'Invalid date format' if the input is not in correct format.
+    """
+    try:
+        parts = date_str.split('-')
+        if len(parts) != 3:
+            raise ValueError
+
+        year, month, day = parts
+
+        # Check correct lengths and numeric values
+        if (
+            len(year) != 4
+            or len(month) != 2
+            or len(day) != 2
+            or not (year.isdigit() and month.isdigit() and day.isdigit())
+        ):
+            raise ValueError
+
+        return f"{day}-{month}-{year}"
+
+    except Exception:
+        return "Invalid date format"
+
+
+def test_convert_date_format():
+    #  Valid test cases
+    assert convert_date_format("2023-10-15") == "15-10-2023"
+    assert convert_date_format("2000-01-01") == "01-01-2000"
+    assert convert_date_format("1999-12-31") == "31-12-1999"
+    assert convert_date_format("2025-11-11") == "11-11-2025"
+
+    #  Invalid test cases
+    assert convert_date_format("23-10-15") == "Invalid date format"
+    assert convert_date_format("2023/10/15") == "Invalid date format"
+    assert convert_date_format("2023-1-5") == "Invalid date format"
+    assert convert_date_format("abcd-ef-gh") == "Invalid date format"
+    assert convert_date_format("2023-10") == "Invalid date format"
+    assert convert_date_format("") == "Invalid date format"
+
+    # This print confirms the tests ran
+    print(" All date conversion test cases passed successfully!")
+
+
+# Make sure the tests run automatically when you execute the file
+if __name__ == "__main__":
+    test_convert_date_format()
+
+    print("\nExample conversions:")
+    examples = [
+        "2023-10-15",
+        "2000-01-01",
+        "2025-11-11",
+        "23-10-15",
+        "abcd-ef-gh"
+    ]
+
+    for e in examples:
+        print(f"{e}  →  {convert_date_format(e)}")
+print("File executed successfully!")
+
+
