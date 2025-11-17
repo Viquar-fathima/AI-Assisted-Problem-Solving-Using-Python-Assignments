@@ -1,0 +1,19 @@
+def student_discount(price):
+    return price * (0.90 if price > 1000 else 0.95)
+
+def regular_discount(price):
+    return price * (0.85 if price > 2000 else 1.00)
+
+def discount(price, category):
+    if category.lower() == "student":
+        return student_discount(price)
+    return regular_discount(price)
+
+
+# 🔎 Take user input
+price = float(input("Enter the price: "))
+category = input("Enter the category (student/regular): ")
+
+final_price = discount(price, category)
+
+print(f"Final price after discount: {final_price}")
