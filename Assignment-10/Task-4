@@ -1,0 +1,31 @@
+def calculate_average(scores):
+    """Return the average of the given scores."""
+    return sum(scores) / len(scores)
+
+
+def find_highest(scores):
+    """Return the highest score from the list."""
+    return max(scores)
+
+
+def find_lowest(scores):
+    """Return the lowest score from the list."""
+    return min(scores)
+
+
+def process_scores(scores):
+    """Process scores and print average, highest, and lowest values."""
+    avg = calculate_average(scores)
+    highest = find_highest(scores)
+    lowest = find_lowest(scores)
+
+    print("Average:", avg)
+    print("Highest:", highest)
+    print("Lowest:", lowest)
+
+
+# Take user input
+scores_input = input("Enter scores separated by spaces: ")
+scores = [float(s) for s in scores_input.split()]
+
+process_scores(scores)
