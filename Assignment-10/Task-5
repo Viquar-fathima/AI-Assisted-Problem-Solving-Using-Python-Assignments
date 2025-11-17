@@ -1,0 +1,27 @@
+def divide_numbers(a: float, b: float) -> float:
+    """
+    Divide two numbers with error handling.
+
+    This function attempts to divide `a` by `b`. If `b` is zero,
+    a ZeroDivisionError is caught and a message is displayed instead
+    of crashing the program. This ensures the function handles invalid
+    division gracefully.
+
+    :param a: Numerator (number to be divided)
+    :param b: Denominator (number to divide by)
+    :return: Result of division if valid, otherwise None
+    """
+    try:
+        return a / b
+    except ZeroDivisionError:
+        print("Error: Division by zero is not allowed.")
+        return None
+
+
+# 🔎 Take user input
+num1 = float(input("Enter the numerator: "))
+num2 = float(input("Enter the denominator: "))
+
+result = divide_numbers(num1, num2)
+
+print(f"Result of {num1} ÷ {num2} = {result}")
