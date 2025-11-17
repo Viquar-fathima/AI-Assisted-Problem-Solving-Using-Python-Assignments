@@ -1,0 +1,22 @@
+def grade(score: float) -> str:
+    """
+    Return the letter grade based on the numeric score.
+    Uses simple if-elif logic for readability.
+    """
+    if score >= 90:
+        return "A"
+    elif score >= 80:
+        return "B"
+    elif score >= 70:
+        return "C"
+    elif score >= 60:
+        return "D"
+    else:
+        return "F"
+
+
+#  Take user input
+score = float(input("Enter your score: "))
+result = grade(score)
+
+print(f"Your grade is: {result}")
