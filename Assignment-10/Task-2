@@ -1,0 +1,17 @@
+def find_common(a, b):
+    # Convert both lists to sets and take intersection
+    return list(set(a) & set(b))
+
+
+#  Take user input
+list1 = input("Enter the first list (comma separated): ").split(",")
+list2 = input("Enter the second list (comma separated): ").split(",")
+
+# Strip spaces from each element
+list1 = [item.strip() for item in list1]
+list2 = [item.strip() for item in list2]
+
+# Find common elements
+common = find_common(list1, list2)
+
+print("Common elements:", common)
