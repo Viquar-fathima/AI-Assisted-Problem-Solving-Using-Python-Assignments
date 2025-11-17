@@ -1,0 +1,45 @@
+class Employee:
+    """
+    Represents an employee with a name and salary.
+    Provides methods to increase salary and display employee information.
+    """
+
+    def __init__(self, name: str, salary: float):
+        """
+        Initialize an Employee object.
+
+        :param name: Name of the employee
+        :param salary: Current salary of the employee
+        """
+        self._name = name
+        self._salary = salary
+
+    def increase_salary(self, percentage: float) -> None:
+        """
+        Increase the employee's salary by a given percentage.
+
+        :param percentage: Percentage increase to apply
+        """
+        self._salary += self._salary * (percentage / 100)
+
+    def display_info(self) -> None:
+        """
+        Display the employee's details in a formatted way.
+        """
+        print(f"Employee: {self._name}, Salary: {self._salary:.2f}")
+
+
+#  Take user input
+name = input("Enter employee name: ")
+salary = float(input("Enter employee salary: "))
+percentage = float(input("Enter percentage increase: "))
+
+# Create Employee object
+emp = Employee(name, salary)
+
+print("\nInitial details:")
+emp.display_info()
+
+print(f"\nApplying {percentage}% salary increase...")
+emp.increase_salary(percentage)
+emp.display_info()
