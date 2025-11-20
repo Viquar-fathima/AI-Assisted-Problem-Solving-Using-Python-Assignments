@@ -1,0 +1,45 @@
+# Install PuLP if needed: pip install pulp
+
+import pulp as pl
+
+def solve_chocolate_optimization():
+    """
+    Solve the chocolate production optimization:
+    Maximize 6A + 5B
+    Subject to:
+      A + B <= 5  (Milk constraint)
+      3A + 2B <= 12 (Choco constraint)
+      A, B >= 0 and integers
+    Returns a dict with optimal A, B, and profit.
+    """
+    # Define problem
+    prob = pl.LpProblem("Chocolate_Profit_Maximization", pl.LpMaximize)
+
+    # Decision variables (integer)
+    A = pl.LpVariable("A", lowBound=0, cat=pl.LpInteger)
+    B = pl.LpVariable("B", lowBound=0, cat=pl.LpInteger)
+
+    # Objective
+    prob += 6 * A + 5 * B, "Total_Profit"
+
+    # Constraints
+    prob += A + B <= 5, "Milk"
+    prob += 3 * A + 2 * B <= 12, "Choco"
+
+    # Solve
+    status = prob.solve(pl.PULP_CBC_CMD(msg=False))
+
+    # Collect results
+    result = {
+        "status": pl.LpStatus[status],
+        "A": int(pl.value(A)),
+        "B": int(pl.value(B)),
+        "profit": int(pl.value(6 * A + 5 * B)),
+    }
+    return result
+
+if __name__ == "__main__":
+    res = solve_chocolate_optimization()
+    print(f"Status: {res['status']}")
+    print(f"Produce A = {res['A']} units, B = {res['B']} units")
+    print(f"Maximum profit = Rs {res['profit']}")
