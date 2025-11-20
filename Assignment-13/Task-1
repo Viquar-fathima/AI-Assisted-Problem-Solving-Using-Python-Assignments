@@ -1,0 +1,32 @@
+def calculate_area(shape, x, y=0):
+    if shape == "rectangle":
+        return x * y
+    elif shape == "square":
+        return x * x
+    elif shape == "circle":
+        return 3.14 * x * x
+
+# REFACTORED CODE
+def rectangle_area(x, y):
+    return x * y
+
+def square_area(x):
+    return x * x
+
+def circle_area(r):
+    return 3.14 * r * r
+
+area_functions = {
+    "rectangle": lambda x, y: rectangle_area(x, y),
+    "square": lambda x, y: square_area(x),
+    "circle": lambda x, y: circle_area(x)
+}
+
+def calculate_area(shape, x, y=0):
+    if shape not in area_functions:
+        raise ValueError("Invalid shape provided.")
+    return area_functions[shape](x, y)
+
+print("Rectangle Area (9 x 3):", calculate_area("rectangle", 9, 3))
+print("Square Area (side = 7):", calculate_area("square", 7)) 
+print("Circle Area (radius = 5):", calculate_area("circle", 5))
