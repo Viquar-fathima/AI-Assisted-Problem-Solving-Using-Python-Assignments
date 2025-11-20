@@ -1,0 +1,102 @@
+# Singly Linked List implementation with insert_at_beginning(), insert_at_end(), and display() methods
+
+from typing import Any, Optional
+
+class Node:
+    """A single node in the linked list."""
+    def __init__(self, data: Any):
+        self.data = data
+        self.next: Optional['Node'] = None
+
+class SinglyLinkedList:
+    """
+    A singly linked list data structure.
+    
+    Methods
+    -------
+    insert_at_beginning(data)
+        Insert an element at the beginning of the list.
+    insert_at_end(data)
+        Insert an element at the end of the list.
+    display()
+        Print all elements in the list.
+    """
+    
+    def __init__(self):
+        """Initialize an empty linked list."""
+        self.head: Optional[Node] = None
+    
+    def insert_at_beginning(self, data: Any) -> None:
+        """Insert an element at the beginning of the list."""
+        new_node = Node(data)
+        new_node.next = self.head
+        self.head = new_node
+    
+    def insert_at_end(self, data: Any) -> None:
+        """Insert an element at the end of the list."""
+        new_node = Node(data)
+        if self.head is None:
+            self.head = new_node
+            return
+        current = self.head
+        while current.next is not None:
+            current = current.next
+        current.next = new_node
+    
+    def display(self) -> None:
+        """Print all elements in the list."""
+        elements = []
+        current = self.head
+        while current is not None:
+            elements.append(str(current.data))
+            current = current.next
+        if elements:
+            print(" -> ".join(elements))
+        else:
+            print("List is empty")
+    
+    def __repr__(self) -> str:
+        """Return string representation of the list."""
+        elements = []
+        current = self.head
+        while current is not None:
+            elements.append(str(current.data))
+            current = current.next
+        return "SinglyLinkedList([" + ", ".join(elements) + "])"
+
+
+if __name__ == "__main__":
+    ll = SinglyLinkedList()
+    
+    print("Singly Linked List Operations")
+    print("=" * 50)
+    
+    while True:
+        print("\nOptions:")
+        print("1. Insert at beginning")
+        print("2. Insert at end")
+        print("3. Display list")
+        print("4. Exit")
+        
+        choice = input("Enter choice (1-4): ").strip()
+        
+        if choice == "1":
+            data = input("Enter data to insert at beginning: ").strip()
+            ll.insert_at_beginning(data)
+            print(f"Inserted '{data}' at beginning")
+        
+        elif choice == "2":
+            data = input("Enter data to insert at end: ").strip()
+            ll.insert_at_end(data)
+            print(f"Inserted '{data}' at end")
+        
+        elif choice == "3":
+            print("List contents: ", end="")
+            ll.display()
+        
+        elif choice == "4":
+            print("Exiting...")
+            break
+        
+        else:
+            print("Invalid choice. Please enter 1-4.")
