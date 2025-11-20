@@ -1,0 +1,127 @@
+# Linear Optimization - Chocolate Manufacturing Problem
+# Using scipy.optimize.linprog
+
+from scipy.optimize import linprog
+import numpy as np
+
+def solve_chocolate_problem():
+    """
+    Chocolate Manufacturing Optimization Problem
+    
+    Decision Variables:
+    - x = units of chocolate A to produce
+    - y = units of chocolate B to produce
+    
+    Objective: Maximize profit = 6x + 5y
+    
+    Constraints:
+    - Milk: 1x + 1y <= 5
+    - Choco: 3x + 2y <= 12
+    - x >= 0, y >= 0
+    """
+    
+    # linprog minimizes, so negate coefficients for maximization
+    # Objective: maximize 6x + 5y => minimize -6x - 5y
+    c = [-6, -5]
+    
+    # Inequality constraints: Ax <= b
+    # 1x + 1y <= 5 (Milk constraint)
+    # 3x + 2y <= 12 (Choco constraint)
+    A_ub = [
+        [1, 1],    # Milk constraint
+        [3, 2]     # Choco constraint
+    ]
+    b_ub = [5, 12]
+    
+    # Bounds for variables (x >= 0, y >= 0)
+    x_bounds = (0, None)
+    y_bounds = (0, None)
+    bounds = [x_bounds, y_bounds]
+    
+    # Solve
+    result = linprog(c, A_ub=A_ub, b_ub=b_ub, bounds=bounds, method='highs')
+    
+    return result
+
+def display_solution(result):
+    """Display optimization results."""
+    print("=" * 60)
+    print("CHOCOLATE MANUFACTURING OPTIMIZATION")
+    print("=" * 60)
+    
+    if result.success:
+        x, y = result.x
+        profit = -result.fun  # negate back to get maximum
+        
+        print(f"\n✓ Optimal Solution Found!")
+        print(f"\nDecision Variables:")
+        print(f"  Units of Chocolate A (x): {x:.2f}")
+        print(f"  Units of Chocolate B (y): {y:.2f}")
+        
+        print(f"\nMaximum Profit: Rs {profit:.2f}")
+        
+        print(f"\nResource Utilization:")
+        milk_used = x + y
+        choco_used = 3*x + 2*y
+        print(f"  Milk used: {milk_used:.2f} / 5 units")
+        print(f"  Choco used: {choco_used:.2f} / 12 units")
+        
+        print(f"\nProfit Breakdown:")
+        print(f"  From A: {x:.2f} × Rs 6 = Rs {6*x:.2f}")
+        print(f"  From B: {y:.2f} × Rs 5 = Rs {5*y:.2f}")
+    else:
+        print("✗ No optimal solution found!")
+        print(result.message)
+
+def manual_solution():
+    """Solve using corner point method (manual)."""
+    print("\n" + "=" * 60)
+    print("CORNER POINT METHOD (Manual Verification)")
+    print("=" * 60)
+    
+    # Corner points of feasible region
+    corners = [
+        (0, 0),      # Origin
+        (4, 0),      # x-intercept of 3x + 2y = 12
+        (5, 0),      # x-intercept of x + y = 5
+        (0, 5),      # y-intercept of x + y = 5
+        (0, 6),      # y-intercept of 3x + 2y = 12
+        (2, 3),      # Intersection of x + y = 5 and 3x + 2y = 12
+    ]
+    
+    print("\nEvaluating profit at corner points:")
+    print(f"{'Point (x, y)':<15} {'Milk':<10} {'Choco':<10} {'Profit':<10} {'Feasible'}")
+    print("-" * 60)
+    
+    best_profit = 0
+    best_point = None
+    
+    for x, y in corners:
+        milk = x + y
+        choco = 3*x + 2*y
+        profit = 6*x + 5*y
+        feasible = (milk <= 5 and choco <= 12 and x >= 0 and y >= 0)
+        
+        if feasible and profit > best_profit:
+            best_profit = profit
+            best_point = (x, y)
+        
+        status = "✓" if feasible else "✗"
+        print(f"({x}, {y}){'':<8} {milk:<10.1f} {choco:<10.1f} {profit:<10.1f} {status}")
+    
+    print(f"\n✓ Optimal: ({best_point[0]}, {best_point[1]}) with profit Rs {best_profit}")
+    return best_point, best_profit
+
+if __name__ == "__main__":
+    # Solve using scipy
+    result = solve_chocolate_problem()
+    display_solution(result)
+    
+    # Verify using corner point method
+    manual_point, manual_profit = manual_solution()
+    
+    print("\n" + "=" * 60)
+    print("CONCLUSION")
+    print("=" * 60)
+    print(f"Produce {manual_point[0]:.0f} units of A and {manual_point[1]:.0f} units of B")
+    print(f"Maximum Profit: Rs {manual_profit}")
