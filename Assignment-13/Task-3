@@ -1,0 +1,38 @@
+class Student:
+    def __init__(self, name, age, mark1, mark2, mark3):
+        """Initialize student details."""
+        self.name = name
+        self.age = age
+        self.marks = [mark1, mark2, mark3]
+
+    def show_details(self):
+        """Display the student’s basic information."""
+        print(f"\nName: {self.name}")
+        print(f"Age: {self.age}")
+
+    def total_marks(self):
+        """Return the total marks."""
+        return sum(self.marks)
+
+    def average(self):
+        """Return the average marks."""
+        return sum(self.marks) / len(self.marks)
+
+
+# ---- ENABLE USER INPUT ----
+
+name = input("Enter student's name: ")
+age = int(input("Enter student's age: "))
+
+print("\nEnter 3 subject marks:")
+m1 = float(input("Mark 1: "))
+m2 = float(input("Mark 2: "))
+m3 = float(input("Mark 3: "))
+
+# Create object
+s = Student(name, age, m1, m2, m3)
+
+# Output
+s.show_details()
+print("Total Marks:", s.total_marks())
+print("Average Marks:", s.average())
