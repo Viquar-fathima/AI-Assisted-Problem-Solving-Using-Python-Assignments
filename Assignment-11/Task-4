@@ -1,0 +1,112 @@
+# Binary Search Tree (BST) implementation with insert() and inorder_traversal()
+
+from typing import Any, Optional, List
+
+class TreeNode:
+    """A single node in the binary search tree."""
+    def __init__(self, data: Any):
+        self.data = data
+        self.left: Optional['TreeNode'] = None
+        self.right: Optional['TreeNode'] = None
+
+class BinarySearchTree:
+    """
+    A binary search tree data structure.
+    
+    Methods
+    -------
+    insert(data)
+        Insert an element into the BST maintaining BST property.
+    inorder_traversal()
+        Return list of elements in sorted (inorder) order.
+    display_inorder()
+        Print elements in inorder traversal.
+    """
+    
+    def __init__(self):
+        """Initialize an empty BST."""
+        self.root: Optional[TreeNode] = None
+    
+    def insert(self, data: Any) -> None:
+        """Insert an element into the BST."""
+        if self.root is None:
+            self.root = TreeNode(data)
+        else:
+            self._insert_recursive(self.root, data)
+    
+    def _insert_recursive(self, node: TreeNode, data: Any) -> None:
+        """Helper function to recursively insert data."""
+        if data < node.data:
+            if node.left is None:
+                node.left = TreeNode(data)
+            else:
+                self._insert_recursive(node.left, data)
+        else:
+            if node.right is None:
+                node.right = TreeNode(data)
+            else:
+                self._insert_recursive(node.right, data)
+    
+    def inorder_traversal(self) -> List[Any]:
+        """Return list of elements in inorder (sorted) sequence."""
+        result = []
+        self._inorder_recursive(self.root, result)
+        return result
+    
+    def _inorder_recursive(self, node: Optional[TreeNode], result: List[Any]) -> None:
+        """Helper function to recursively traverse inorder: left -> root -> right."""
+        if node is not None:
+            self._inorder_recursive(node.left, result)
+            result.append(node.data)
+            self._inorder_recursive(node.right, result)
+    
+    def display_inorder(self) -> None:
+        """Print elements in inorder traversal."""
+        elements = self.inorder_traversal()
+        if elements:
+            print(" -> ".join(str(e) for e in elements))
+        else:
+            print("Tree is empty")
+    
+    def __repr__(self) -> str:
+        """Return string representation of the BST."""
+        return f"BST({self.inorder_traversal()})"
+
+
+if __name__ == "__main__":
+    bst = BinarySearchTree()
+    
+    print("Binary Search Tree Operations")
+    print("=" * 50)
+    
+    while True:
+        print("\nOptions:")
+        print("1. Insert element")
+        print("2. Display inorder traversal")
+        print("3. Exit")
+        
+        choice = input("Enter choice (1-3): ").strip()
+        
+        if choice == "1":
+            try:
+                # Try to parse as integer, else keep as string
+                data_str = input("Enter data to insert: ").strip()
+                try:
+                    data = int(data_str)
+                except ValueError:
+                    data = data_str
+                bst.insert(data)
+                print(f"Inserted '{data}' into BST")
+            except Exception as e:
+                print(f"Error: {e}")
+        
+        elif choice == "2":
+            print("BST Inorder Traversal (sorted): ", end="")
+            bst.display_inorder()
+        
+        elif choice == "3":
+            print("Exiting...")
+            break
+        
+        else:
+            print("Invalid choice. Please enter 1-3.")
