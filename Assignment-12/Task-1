@@ -1,0 +1,36 @@
+def linear_search(lst, target):
+    """
+    Perform a linear search on a list to find the index of a target value.
+
+    Parameters:
+    lst (list): The list to search through.
+    target (any): The value to search for.
+
+    Returns:
+    int: The index of the target if found, otherwise -1.
+    """
+    for index, value in enumerate(lst):
+        if value == target:
+            return index
+    return -1
+
+
+# --- Interactive Part ---
+# Ask user for list input
+user_input = input("Enter elements of the list separated by spaces: ")
+numbers = user_input.split()   # creates a list of strings
+
+# Convert to integers if needed
+numbers = [int(x) for x in numbers]
+
+# Ask user for the value to search
+search_value = int(input("Enter the value to search: "))
+
+# Perform search
+result = linear_search(numbers, search_value)
+
+# Display result
+if result != -1:
+    print(f"Value {search_value} found at index {result}.")
+else:
+    print(f"Value {search_value} not found in the list.")
