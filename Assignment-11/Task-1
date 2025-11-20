@@ -1,0 +1,88 @@
+class Stack:
+    """
+    A simple implementation of a stack data structure (LIFO: Last In, First Out).
+    Provides methods to push, pop, peek, and check if the stack is empty.
+    """
+
+    def __init__(self):
+        """Initialize an empty stack."""
+        self._items = []
+
+    def push(self, item):
+        """Add an item to the top of the stack."""
+        self._items.append(item)
+
+    def pop(self):
+        """Remove and return the top item from the stack."""
+        if not self.is_empty():
+            return self._items.pop()
+        print("Error: Cannot pop from an empty stack.")
+        return None
+
+    def peek(self):
+        """Return the top item without removing it."""
+        if not self.is_empty():
+            return self._items[-1]
+        print("Error: Cannot peek into an empty stack.")
+        return None
+
+    def is_empty(self):
+        """Check if the stack is empty."""
+        return len(self._items) == 0
+
+    def display(self):
+        """Display the current stack contents."""
+        print("Current stack:", self._items)
+
+
+# 🔎 Step 1: Load initial array elements into the stack
+stack = Stack()
+elements = input("Enter initial array elements (space separated): ").split()
+
+for elem in elements:
+    stack.push(elem)
+
+print("\nInitial stack loaded:")
+stack.display()
+
+# 🔎 Step 2: Perform operations interactively with numbered menu
+while True:
+    print("\nChoose an operation:")
+    print("1. Push")
+    print("2. Pop")
+    print("3. Peek")
+    print("4. Check if empty")
+    print("5. Display stack")
+    print("6. Exit")
+
+    choice = input("Enter your choice (1-6): ").strip()
+
+    if choice == "1":
+        item = input("Enter item to push: ")
+        stack.push(item)
+        print(f"Pushed {item} onto the stack.")
+        stack.display()
+
+    elif choice == "2":
+        popped = stack.pop()
+        if popped is not None:
+            print(f"Popped item: {popped}")
+        stack.display()
+
+    elif choice == "3":
+        top = stack.peek()
+        if top is not None:
+            print(f"Top item: {top}")
+
+    elif choice == "4":
+        print("Stack is empty?", stack.is_empty())
+
+    elif choice == "5":
+        stack.display()
+
+    elif choice == "6":
+        print("Exiting program...")
+        break
+
+    else:
+        print("Invalid choice. Please enter a number between 1 and 6.")
