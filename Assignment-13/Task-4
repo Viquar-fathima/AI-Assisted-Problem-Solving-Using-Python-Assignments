@@ -1,0 +1,5 @@
+nums = list(range(1, 11))
+squares = [x * x for x in nums]
+
+print("Numbers:", nums)
+print("Squares:", squares)
