@@ -1,0 +1,88 @@
+from collections import deque
+from typing import Any
+
+class Queue:
+    """
+    A simple First-In-First-Out (FIFO) queue data structure.
+    
+    Methods
+    -------
+    enqueue(item)
+        Add an item to the rear of the queue.
+    dequeue()
+        Remove and return the front item from the queue.
+        Raises IndexError if queue is empty.
+    is_empty()
+        Return True if the queue is empty, False otherwise.
+    """
+    
+    def __init__(self):
+        """Initialize an empty queue."""
+        self._items = deque()
+    
+    def enqueue(self, item: Any) -> None:
+        """Add an item to the rear of the queue."""
+        self._items.append(item)
+    
+    def dequeue(self) -> Any:
+        """Remove and return the front item. Raises IndexError if empty."""
+        if self.is_empty():
+            raise IndexError("dequeue from empty queue")
+        return self._items.popleft()
+    
+    def is_empty(self) -> bool:
+        """Return True if queue is empty, False otherwise."""
+        return len(self._items) == 0
+    
+    def __len__(self) -> int:
+        """Return the number of items in the queue."""
+        return len(self._items)
+    
+    def __repr__(self) -> str:
+        """Return string representation of the queue."""
+        return f"Queue({list(self._items)})"
+
+
+if __name__ == "__main__":
+    queue = Queue()
+    
+    print("Queue Operations Demo (FIFO)")
+    print("=" * 40)
+    
+    while True:
+        print("\nOptions:")
+        print("1. Enqueue (add)")
+        print("2. Dequeue (remove)")
+        print("3. Check if empty")
+        print("4. Display queue")
+        print("5. Exit")
+        
+        choice = input("Enter choice (1-5): ").strip()
+        
+        if choice == "1":
+            item = input("Enter item to enqueue: ").strip()
+            queue.enqueue(item)
+            print(f"Enqueued: {item}")
+        
+        elif choice == "2":
+            try:
+                dequeued = queue.dequeue()
+                print(f"Dequeued: {dequeued}")
+            except IndexError as e:
+                print(f"Error: {e}")
+        
+        elif choice == "3":
+            if queue.is_empty():
+                print("Queue is empty")
+            else:
+                print(f"Queue is not empty (contains {len(queue)} items)")
+        
+        elif choice == "4":
+            print(f"Queue contents: {queue}")
+        
+        elif choice == "5":
+            print("Exiting...")
+            break
+        
+        else:
+            print("Invalid choice. Please enter 1-5.")
