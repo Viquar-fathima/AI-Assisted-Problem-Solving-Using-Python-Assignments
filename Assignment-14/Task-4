@@ -1,0 +1,55 @@
+from flask import Flask, render_template_string, request
+
+app = Flask(__name__)
+
+# HTML form stored inside Flask (using render_template_string)
+login_page = """
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Form</title>
+</head>
+<body style="font-family: Arial;">
+
+<h2>Login Page</h2>
+
+<form method="POST" action="/login">
+    <label>Username:</label><br>
+    <input type="text" name="username"><br><br>
+
+    <label>Password:</label><br>
+    <input type="password" name="password"><br><br>
+
+    <button type="submit">Submit</button>
+</form>
+
+{% if error %}
+<p style="color:red;">{{ error }}</p>
+{% endif %}
+
+{% if success %}
+<p style="color:green;">{{ success }}</p>
+{% endif %}
+
+</body>
+</html>
+"""
+
+@app.route("/", methods=["GET"])
+def index():
+    return render_template_string(login_page)
+
+@app.route("/login", methods=["POST"])
+def login():
+    username = request.form.get("username")
+    password = request.form.get("password")
+
+    # Validation
+    if not username or not password:
+        return render_template_string(login_page, error="⚠ Both fields are required!")
+
+    # If valid, show success
+    return render_template_string(login_page, success=f"✔ Login Successful! Welcome, {username}.")
+
+if __name__ == "__main__":
+    app.run(debug=True)
