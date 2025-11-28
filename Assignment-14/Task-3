@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Validation</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .login-box {
+            background: white;
+            padding: 25px;
+            width: 300px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+            border-radius: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            border-radius: 5px;
+            border: 1px solid #aaa;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 12px;
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #004c99;
+        }
+
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .success {
+            color: green;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-box">
+        <h2>Login</h2>
+
+        <form onsubmit="return validateLogin()">
+            <label>Username:</label>
+            <input type="text" id="username">
+            <p id="userError" class="error"></p>
+
+            <label>Password:</label>
+            <input type="password" id="password">
+            <p id="passError" class="error"></p>
+
+            <button type="submit">Submit</button>
+        </form>
+
+        <p id="message" class="success"></p>
+    </div>
+
+    <script>
+        function validateLogin() {
+            let username = document.getElementById("username").value.trim();
+            let password = document.getElementById("password").value.trim();
+
+            let userError = document.getElementById("userError");
+            let passError = document.getElementById("passError");
+            let message = document.getElementById("message");
+
+            // Clear old messages
+            userError.textContent = "";
+            passError.textContent = "";
+            message.textContent = "";
+
+            let valid = true;
+
+            if (username === "") {
+                userError.textContent = "⚠ Username cannot be empty";
+                valid = false;
+            }
+
+            if (password === "") {
+                passError.textContent = "⚠ Password cannot be empty";
+                valid = false;
+            }
+
+            if (valid) {
+                message.textContent = "✔ Login Successful!";
+            }
+
+            return valid; // prevents form from submitting if invalid
+        }
+    </script>
+
+</body>
+</html>
