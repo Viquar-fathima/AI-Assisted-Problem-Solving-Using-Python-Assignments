@@ -1,0 +1,21 @@
+post_id,user,post_text,likes,shares,timestamp,clean_post,hour,weekday,post_length
+1,user_1,This is a sample POST!!! #fun,20,1,2025-01-01 00:00:00,sample post fun,0,Wednesday,3
+2,user_2,<html>Great Day!</html>,20,3,2025-01-01 06:00:00,great day,6,Wednesday,2
+3,user_3,This is a sample POST!!! #fun,20,1,2025-01-01 12:00:00,sample post fun,12,Wednesday,3
+4,user_4,<html>Great Day!</html>,100,0,2025-01-01 18:00:00,great day,18,Wednesday,2
+5,user_5,This is a sample POST!!! #fun,20,5,2025-01-02 00:00:00,sample post fun,0,Thursday,3
+6,user_6,<html>Great Day!</html>,5,1,2025-01-02 06:00:00,great day,6,Thursday,2
+7,user_7,This is a sample POST!!! #fun,20,5,2025-01-02 12:00:00,sample post fun,12,Thursday,3
+8,user_8,<html>Great Day!</html>,10,5,2025-01-02 18:00:00,great day,18,Thursday,2
+9,user_9,This is a sample POST!!! #fun,5,5,2025-01-03 00:00:00,sample post fun,0,Friday,3
+10,user_10,<html>Great Day!</html>,5,5,2025-01-03 06:00:00,great day,6,Friday,2
+11,user_11,This is a sample POST!!! #fun,0,1,2025-01-03 12:00:00,sample post fun,12,Friday,3
+12,user_12,<html>Great Day!</html>,10,3,2025-01-03 18:00:00,great day,18,Friday,2
+13,user_13,This is a sample POST!!! #fun,5,5,2025-01-04 00:00:00,sample post fun,0,Saturday,3
+14,user_14,<html>Great Day!</html>,5,1,2025-01-04 06:00:00,great day,6,Saturday,2
+15,user_15,This is a sample POST!!! #fun,0,5,2025-01-04 12:00:00,sample post fun,12,Saturday,3
+16,user_16,<html>Great Day!</html>,0,1,2025-01-04 18:00:00,great day,18,Saturday,2
+17,user_17,This is a sample POST!!! #fun,0,3,2025-01-05 00:00:00,sample post fun,0,Sunday,3
+18,user_18,<html>Great Day!</html>,20,3,2025-01-05 06:00:00,great day,6,Sunday,2
+19,user_19,This is a sample POST!!! #fun,10,0,2025-01-05 12:00:00,sample post fun,12,Sunday,3
+20,user_20,<html>Great Day!</html>,0,0,2025-01-05 18:00:00,great day,18,Sunday,2
